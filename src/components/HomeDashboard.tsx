@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { Card, LinearProgress, Typography, Container, Box } from "@mui/material";
 import { collection, getDocs } from "firebase/firestore";
-// import { db } from "../firebaseConfig";
+import { app } from "../types/firebaseConfig";
 import pilotAvatar from "../assets/images/pennypilot.png"; // Using a more standard image format that likely exists
 
 interface UserData {
@@ -15,9 +15,9 @@ export default function HomeDashboard() {
 
   useEffect(() => {
     const fetchData = async () => {
-      // const querySnapshot = await getDocs(collection(db, "users"));
-      // const data = querySnapshot.docs[0]?.data() as UserData;
-      // if (data) setUserData(data);
+      const querySnapshot = await getDocs(collection(db, "users"));
+      const data = querySnapshot.docs[0]?.data() as UserData;
+      if (data) setUserData(data);
     };
     fetchData();
   }, []);
