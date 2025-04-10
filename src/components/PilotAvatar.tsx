@@ -2,20 +2,12 @@
 import * as React from "react";
 import { Typography, Paper, Box } from "@mui/material";
 import { useSpring } from "react-spring";
-import avatarImage from "/images/pennypilot.png";
 
 interface PilotAvatarProps {
   message: string;
 }
 
 export default function PilotAvatar({ message }: PilotAvatarProps) {
-  const avatarProps = useSpring({
-    from: { rotate: 0 },
-    to: { rotate: 10 },
-    loop: { reverse: true },
-    config: { duration: 1000 },
-  });
-
   const bubbleProps = useSpring({
     from: { opacity: 0, scale: 0.8 },
     to: { opacity: 1, scale: 1 },
@@ -26,11 +18,10 @@ export default function PilotAvatar({ message }: PilotAvatarProps) {
     <Box sx={{ position: "relative", mb: 4, display: "flex", justifyContent: "center", alignItems: "center", width: "100%" }}>
       <Box
         component="img"
-        src={avatarImage}
+        src="/images/pennypilot.png"
         sx={{
-          width: { xs: "280px", sm: "320px", md: "400px" },
+          width: { xs: "300px", sm: "350px", md: "450px", lg: "650px" },
           height: "auto",
-          transform: `rotate(${avatarProps.rotate.get()}deg)`,
           objectFit: "contain",
           maxWidth: "100%"
         }}
