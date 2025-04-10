@@ -1,4 +1,3 @@
-// src/components/TaxPrep.tsx
 import React, { useState } from "react";
 import {
   Button,
@@ -11,7 +10,7 @@ import {
 } from "@mui/material";
 import { useSpring } from "react-spring";
 import { collection, addDoc } from "firebase/firestore";
-// import { db } from "../firebaseConfig";
+import { db } from "../types/firebaseConfig";
 import PilotAvatar from "./PilotAvatar";
 
 export default function TaxPrep() {
@@ -28,11 +27,11 @@ export default function TaxPrep() {
   const handleAddIncome = async () => {
     const taxAmount = income * taxRate;
     try {
-      // await addDoc(collection(db, "users"), {
-        // income,
-        // taxSavings: taxAmount,
-        // timestamp: new Date(),
-      // });
+      await addDoc(collection(db, "users"), {
+        income,
+        taxSavings: taxAmount,
+        timestamp: new Date(),
+      });
       setTaxSaved((prev) => prev + taxAmount);
       setIncome(0);
     } catch (e) {
@@ -41,14 +40,14 @@ export default function TaxPrep() {
   };
 
   return (
-    <Container maxWidth="md" sx={{ mt: 10 }}>
+    <Container maxWidth="lg" sx={{ mt: 10 }}>
       <Box
         sx={{
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           textAlign: "center",
-          minHeight: "calc(100vh - 64px)",
+          minHeight: "calc(100vh - 128px)",
           justifyContent: "center",
           px: { xs: 2, sm: 0 },
         }}
@@ -57,7 +56,7 @@ export default function TaxPrep() {
         <Typography variant="h5" gutterBottom>
           Freelancer's Tax Logbook
         </Typography>
-        <Card sx={{ p: 2, mb: 2, width: { xs: "100%", sm: "80%", md: "60%" } }}>
+        <Card sx={{ p: 2, mb: 2, width: { xs: "100%", sm: "90%", md: "70%", lg: "60%" } }}>
           <TextField
             label="Gig Income"
             type="number"
@@ -71,7 +70,7 @@ export default function TaxPrep() {
             Log Income & Save
           </Button>
         </Card>
-        <Card sx={{ p: 2, width: { xs: "100%", sm: "80%", md: "60%" } }}>
+        <Card sx={{ p: 2, width: { xs: "100%", sm: "90%", md: "70%", lg: "60%" } }}>
           <Typography>Tax Savings Progress</Typography>
           <LinearProgress variant="determinate" value={(taxSaved / 1000) * 100} />
           <div>${props.number.get().toFixed(2)} Saved</div>
@@ -79,4 +78,4 @@ export default function TaxPrep() {
       </Box>
     </Container>
   );
-}
+} 

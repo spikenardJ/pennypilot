@@ -1,5 +1,5 @@
 // src/components/PilotAvatar.tsx
-import React from "react";
+import * as React from "react";
 import { Typography, Paper, Box } from "@mui/material";
 import { useSpring } from "react-spring";
 
@@ -8,13 +8,6 @@ interface PilotAvatarProps {
 }
 
 export default function PilotAvatar({ message }: PilotAvatarProps) {
-  const avatarProps = useSpring({
-    from: { rotate: 0 },
-    to: { rotate: 10 },
-    loop: { reverse: true },
-    config: { duration: 1000 },
-  });
-
   const bubbleProps = useSpring({
     from: { opacity: 0, scale: 0.8 },
     to: { opacity: 1, scale: 1 },
@@ -22,22 +15,22 @@ export default function PilotAvatar({ message }: PilotAvatarProps) {
   });
 
   return (
-    <Box sx={{ position: "relative", mb: 2 }}>
-      <div
-        style={{
-          width: "100px",
-          transform: `rotate(${avatarProps.rotate.get()}deg)`,
-          backgroundImage: "url('https://via.placeholder.com/100?text=Pilot')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          height: "100px"
+    <Box sx={{ position: "relative", mb: 4, display: "flex", justifyContent: "center", alignItems: "center", width: "100%" }}>
+      <Box
+        component="img"
+        src="/images/pennypilot.png"
+        sx={{
+          width: { xs: "300px", sm: "350px", md: "450px", lg: "650px" },
+          height: "auto",
+          objectFit: "contain",
+          maxWidth: "100%"
         }}
       />
       <div
         style={{
           position: "absolute",
-          top: "-50px",
-          left: "120px",
+          top: "-80px",
+          left: "60%",
           opacity: bubbleProps.opacity.get(),
           transform: `translateX(-50%) scale(${bubbleProps.scale.get()})`
         }}
@@ -45,13 +38,13 @@ export default function PilotAvatar({ message }: PilotAvatarProps) {
         <Paper
           elevation={3}
           sx={{
-            p: 1,
-            borderRadius: "16px",
+            p: 2,
+            borderRadius: "20px",
             backgroundColor: "#f5f5f5",
-            maxWidth: { xs: "150px", sm: "200px" },
+            maxWidth: { xs: "220px", sm: "300px", md: "400px" },
           }}
         >
-          <Typography variant="body2" sx={{ wordWrap: "break-word" }}>
+          <Typography variant="body1" sx={{ wordWrap: "break-word", fontSize: { xs: "1rem", sm: "1.1rem", md: "1.2rem" } }}>
             {message}
           </Typography>
         </Paper>

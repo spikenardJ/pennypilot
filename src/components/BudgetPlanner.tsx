@@ -1,13 +1,11 @@
-// src/components/BudgetPlanner.tsx
 import React, { useState } from "react";
 import { Button, TextField, Typography, Card, Container, Box } from "@mui/material";
 import { useSpring } from "react-spring";
 import { collection, addDoc } from "firebase/firestore";
-import { app } from "../types/firebaseConfig";
-import { getFirestore } from "firebase/firestore";
-import pilotAvatar from "../assets/images/pennypilot.png";
 
-const db = getFirestore(app);
+import { db } from "../types/firebaseConfig";
+import PilotAvatar from "./PilotAvatar";
+
 
 export default function BudgetPlanner() {
   const [income, setIncome] = useState<number>(0);
@@ -34,19 +32,23 @@ export default function BudgetPlanner() {
   };
 
   return (
-    <Container maxWidth="md" sx={{ mt: 10 }}>
+    <Container maxWidth="lg" sx={{ mt: 10 }}>
+
       <Box
         sx={{
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           textAlign: "center",
-          minHeight: "calc(100vh - 64px)",
+
+          minHeight: "calc(100vh - 128px)",
           justifyContent: "center",
           px: { xs: 2, sm: 0 },
         }}
       >
-        <img src={pilotAvatar} alt="Pilot Avatar" style={{ maxWidth: '200px', marginBottom: '20px' }} />
+
+        <PilotAvatar message={saved ? "Budget set! Ready for takeoff!" : "Let's plan your financial flight path!"} />
+
         <Typography variant="h5" gutterBottom>
           Set Your Flight Plan
         </Typography>
@@ -83,4 +85,5 @@ export default function BudgetPlanner() {
       </Box>
     </Container>
   );
-}
+
+} 
