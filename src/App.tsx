@@ -1,4 +1,3 @@
-// import { AuthProvider } from "./context/auth";
 import React from "react";
 import Navbar from "./components/Navbar";
 import HomeDashboard from "./components/HomeDashboard";
@@ -10,13 +9,11 @@ function App() {
   return (
     <BrowserRouter>
       <Navbar />
-      {/* <AuthProvider> */}
-        <Routes>
-          <Route path="/" element={<HomeDashboard />} />
-          <Route path="/budget" element={<BudgetPlanner />} />
-          <Route path="/tax-prep" element={<TaxPrep />} />
-        </Routes>
-      {/* </AuthProvider> */}
+      <Routes>
+        <Route path="/" element={<HomeDashboard />} />
+        <Route path="/budget" element={<BudgetPlanner />} />
+        <Route path="/tax-prep" element={<TaxPrep />} />
+      </Routes>
     </BrowserRouter>
   );
 }
