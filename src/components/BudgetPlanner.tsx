@@ -3,8 +3,11 @@ import React, { useState } from "react";
 import { Button, TextField, Typography, Card, Container, Box } from "@mui/material";
 import { useSpring } from "react-spring";
 import { collection, addDoc } from "firebase/firestore";
-// import { db } from "../firebaseConfig";
+import { app } from "../types/firebaseConfig";
+import { getFirestore } from "firebase/firestore";
 import pilotAvatar from "../assets/images/pennypilot.png";
+
+const db = getFirestore(app);
 
 export default function BudgetPlanner() {
   const [income, setIncome] = useState<number>(0);
@@ -18,12 +21,12 @@ export default function BudgetPlanner() {
 
   const handleSaveBudget = async () => {
     try {
-      // await addDoc(collection(db, "users"), {
-        // budgetSet: true,
-        // income,
-        // expenses,
-        // timestamp: new Date(),
-      // });
+      await addDoc(collection(db, "users"), {
+        budgetSet: true,
+        income,
+        expenses,
+        timestamp: new Date(),
+      });
       setSaved(true);
     } catch (e) {
       console.error("Error saving budget: ", e);
