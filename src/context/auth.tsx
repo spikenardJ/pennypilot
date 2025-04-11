@@ -1,32 +1,32 @@
-import React, { createContext, useState, useEffect } from "react";
-import { app } from "../types/firebaseConfig";
-import { getAuth, onAuthStateChanged, User } from "firebase/auth";
+import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { app } from "../types/firebaseConfig"; // Your path, assuming it's relative to src/context/
+import { getAuth, User, onAuthStateChanged } from "firebase/auth";
 
-const auth = getAuth(app);
+export const auth = getAuth(app); // Export auth for use elsewhere
 
-const AuthContext = createContext({
-    user: null as User | null,
-    setUser: (_user: any) => {},
-});
+interface AuthContextType {
+  currentUser: User | null;
+  loading: boolean;
+}
 
-export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-    const [user, setUser] = useState<User | null>(null);
+const AuthContext = createContext<AuthContextType>({ currentUser: null, loading: true });
 
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
-            if (user) {
-                setUser(user);
-            } else {
-                setUser(null);
-            }
-        });
-        
-        return () => unsubscribe();
-    }, []);
+export function AuthProvider({ children }: { children: ReactNode }) {
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
 
-    return (
-        <AuthContext.Provider value={{ user, setUser }}>
-            {children}
-        </AuthContext.Provider>
-    );
-};
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setCurrentUser(user);
+      setLoading(false);
+    });
+    return unsubscribe;
+  }, []);
+
+  return (
+    <AuthContext.Provider value={{ currentUser, loading }}>
+      {!loading && children}
+    </AuthContext.Provider>
+  );
+}
+export const useAuth = () => useContext(AuthContext);
