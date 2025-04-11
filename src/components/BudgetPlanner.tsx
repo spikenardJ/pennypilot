@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { Button, TextField, Typography, Card, Container, Box } from "@mui/material";
-import { useSpring } from "react-spring";
+import { useSpring, animated } from "react-spring";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../types/firebaseConfig";
 import PilotAvatar from "./PilotAvatar";
+import { useAuth } from "../context/auth";
 
 export default function BudgetPlanner() {
+  const { currentUser } = useAuth();
   const [income, setIncome] = useState<number>(0);
   const [expenses, setExpenses] = useState<number>(0);
   const [saved, setSaved] = useState(false);
@@ -16,8 +18,10 @@ export default function BudgetPlanner() {
   });
 
   const handleSaveBudget = async () => {
+    if (!currentUser) return;
     try {
       await addDoc(collection(db, "users"), {
+        uid: currentUser.uid,
         budgetSet: true,
         income,
         expenses,
@@ -42,40 +46,52 @@ export default function BudgetPlanner() {
           px: { xs: 2, sm: 0 },
         }}
       >
-        <PilotAvatar message={saved ? "Budget set! Ready for takeoff!" : "Let's plan your financial flight path!"} />
+        <PilotAvatar
+          message={
+            currentUser
+              ? saved
+                ? "Great job, co-pilot!"
+                : "Let’s set your course!"
+              : "Log in to plan!"
+          }
+        />
         <Typography variant="h5" gutterBottom>
           Set Your Flight Plan
         </Typography>
-        <Card sx={{ p: 2, mb: 2, width: { xs: "100%", sm: "80%", md: "60%" } }}>
-          <TextField
-            label="Monthly Income"
-            type="number"
-            value={income}
-            onChange={(e) => setIncome(Number(e.target.value))}
-            fullWidth
-            sx={{ mb: 2 }}
-          />
-          <TextField
-            label="Monthly Expenses"
-            type="number"
-            value={expenses}
-            onChange={(e) => setExpenses(Number(e.target.value))}
-            fullWidth
-          />
-          <Button
-            variant="contained"
-            onClick={handleSaveBudget}
-            sx={{ mt: 2 }}
-            disabled={saved}
-          >
-            Generate Budget
-          </Button>
-          {saved && (
-            <div style={{ opacity: checkProps.opacity.get() }}>
-              <Typography color="green">✓ Budget Set! +20 Pilot Points</Typography>
-            </div>
-          )}
-        </Card>
+        {currentUser ? (
+          <Card sx={{ p: 2, mb: 2, width: { xs: "100%", sm: "90%", md: "70%", lg: "60%" } }}>
+            <TextField
+              label="Monthly Income"
+              type="number"
+              value={income}
+              onChange={(e) => setIncome(Number(e.target.value))}
+              fullWidth
+              sx={{ mb: 2 }}
+            />
+            <TextField
+              label="Monthly Expenses"
+              type="number"
+              value={expenses}
+              onChange={(e) => setExpenses(Number(e.target.value))}
+              fullWidth
+            />
+            <Button
+              variant="contained"
+              onClick={handleSaveBudget}
+              sx={{ mt: 2 }}
+              disabled={saved}
+            >
+              Generate Budget
+            </Button>
+            {saved && (
+              <animated.div style={checkProps}>
+                <Typography color="green">✓ Budget Set! +20 Pilot Points</Typography>
+              </animated.div>
+            )}
+          </Card>
+        ) : (
+          <Typography>Please log in to set your budget.</Typography>
+        )}
       </Box>
     </Container>
   );
