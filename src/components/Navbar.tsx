@@ -56,25 +56,33 @@ export default function Navbar() {
   return (
     <>
       <AppBar position="fixed" color="primary" sx={{ top: 0, left: 0, right: 0, zIndex: 1100 }}>
-        <Toolbar>
+        <Toolbar sx={{ minHeight: 64, display: "flex", alignItems: "center" }}>
           {/* Logo */}
-          <div
-            style={{ 
-              width: "40px", 
-              height: "40px", 
-              marginRight: "16px",
-              backgroundImage: "url('https://via.placeholder.com/40?text=P')",
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              transform: `rotate(${logoProps.rotate.get()}deg)`
+          <Box
+            sx={{ 
+              height: 64,
+              width: 200,
+              overflow: "hidden",
+              display: "flex",
+              alignItems: "center"
             }}
-          />
+            >
+            <Box
+              component="img"
+              src="/images/PennyPilot-logo.png"
+              alt="Penny Pilot emblem with golden wings and a central P icon."
+              sx={{
+                height: 200,
+                zIndex: 2,
+                pointerEvents: "none",
+              }}
+            />
+            </Box>
           {/* Title */}
           <Typography
             variant="h6"
             sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
           >
-            PennyPilot
           </Typography>
           {/* Desktop Nav Buttons */}
           <Box sx={{ display: { xs: "none", sm: "flex" }, gap: 1 }}>
