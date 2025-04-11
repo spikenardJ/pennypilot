@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { Button, TextField, Typography, Card, Container, Box } from "@mui/material";
 import { useSpring, animated } from "react-spring";
 import { collection, addDoc } from "firebase/firestore";
+
 import { db } from "../types/firebaseConfig";
 import PilotAvatar from "./PilotAvatar";
-import { useAuth } from "../context/auth";
 
 export default function BudgetPlanner() {
   const { currentUser } = useAuth();
@@ -35,12 +35,14 @@ export default function BudgetPlanner() {
 
   return (
     <Container maxWidth="lg" sx={{ mt: 10 }}>
+
       <Box
         sx={{
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           textAlign: "center",
+
           minHeight: "calc(100vh - 128px)",
           justifyContent: "center",
           px: { xs: 2, sm: 0 },
@@ -51,7 +53,7 @@ export default function BudgetPlanner() {
             currentUser
               ? saved
                 ? "Great job, co-pilot!"
-                : "Let’s set your course!"
+                : "Let's set your course!"
               : "Log in to plan!"
           }
         />
@@ -95,4 +97,5 @@ export default function BudgetPlanner() {
       </Box>
     </Container>
   );
+
 } 
