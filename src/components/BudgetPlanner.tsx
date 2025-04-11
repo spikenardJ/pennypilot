@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { Button, TextField, Typography, Card, Container, Box } from "@mui/material";
 import { useSpring, animated } from "react-spring";
 import { collection, addDoc } from "firebase/firestore";
-
 import { db } from "../types/firebaseConfig";
 import PilotAvatar from "./PilotAvatar";
+import { useAuth } from "../context/auth";
 
 export default function BudgetPlanner() {
   const { currentUser } = useAuth();
