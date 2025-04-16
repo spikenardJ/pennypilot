@@ -33,7 +33,6 @@ Pygments==2.19.1
 PyJWT==2.10.1
 python-dateutil==2.9.0.post0
 python-dotenv==1.0.1
-python-jose==3.4.0
 PyYAML==6.0.2
 rich==13.9.4
 six==1.17.0
