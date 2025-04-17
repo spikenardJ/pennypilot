@@ -1,1 +1,0 @@
-root_password = 'Jajoconi1'

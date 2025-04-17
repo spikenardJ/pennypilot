@@ -1,4 +1,3 @@
-// src/components/PilotAvatar.tsx
 import * as React from "react";
 import { Typography, Paper, Box } from "@mui/material";
 import { useSpring } from "react-spring";

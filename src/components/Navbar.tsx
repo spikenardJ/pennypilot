@@ -12,11 +12,17 @@ import {
   ListItemText,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import { useSpring } from "react-spring";
+import { useSpring, animated } from "react-spring";
 import MenuIcon from "@mui/icons-material/Menu";
+import { useAuth } from "../context/auth"; 
+import LoginModal from "./LoginModal";
+import { signOut } from "firebase/auth";
+import { auth } from "../context/auth";
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [loginOpen, setLoginOpen] = useState(false);
+  const { currentUser } = useAuth();
 
   // Animation for the logo
   const logoProps = useSpring({
@@ -26,9 +32,10 @@ export default function Navbar() {
     reset: true,
   });
 
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
+  const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
+  const handleLoginOpen = () => setLoginOpen(true);
+  const handleLoginClose = () => setLoginOpen(false);
+  const handleLogout = () => signOut(auth);
 
   const navItems = [
     { label: "Home", path: "/" },
@@ -49,6 +56,17 @@ export default function Navbar() {
             <ListItemText primary={item.label} />
           </ListItem>
         ))}
+        <ListItem>
+          {currentUser ? (
+            <Button color="inherit" onClick={handleLogout}>
+              Logout
+            </Button>
+          ) : (
+            <Button color="inherit" onClick={handleLoginOpen}>
+              Login
+            </Button>
+          )}
+        </ListItem>
       </List>
     </Box>
   );
@@ -56,19 +74,28 @@ export default function Navbar() {
   return (
     <>
       <AppBar position="fixed" color="primary" sx={{ top: 0, left: 0, right: 0, zIndex: 1100 }}>
-        <Toolbar>
+        <Toolbar sx={{ minHeight: 64, display: "flex", alignItems: "center" }}>
           {/* Logo */}
-          <div
-            style={{ 
-              width: "40px", 
-              height: "40px", 
-              marginRight: "16px",
-              backgroundImage: "url('https://via.placeholder.com/40?text=P')",
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              transform: `rotate(${logoProps.rotate.get()}deg)`
+          <Box
+            sx={{
+              height: 64,
+              width: 200,
+              overflow: "hidden",
+              display: "flex",
+              alignItems: "center",
             }}
-          />
+          >
+            <animated.img
+              src="/images/PennyPilot-logo.png"
+              alt="Penny Pilot emblem with golden wings and a central P icon."
+              style={{
+                ...logoProps, 
+                height: 200,
+                zIndex: 2,
+                pointerEvents: "none",
+              }}
+            />
+          </Box>
           {/* Title */}
           <Typography
             variant="h6"
@@ -76,6 +103,12 @@ export default function Navbar() {
           >
             PennyPilot
           </Typography>
+          {/* Greeting */}
+          {currentUser && (
+            <Typography sx={{ mr: 2, display: { xs: "none", sm: "block" } }}>
+              Hello, {currentUser.email?.split("@")[0]}!
+            </Typography>
+          )}
           {/* Desktop Nav Buttons */}
           <Box sx={{ display: { xs: "none", sm: "flex" }, gap: 1 }}>
             {navItems.map((item) => (
@@ -89,6 +122,15 @@ export default function Navbar() {
                 {item.label}
               </Button>
             ))}
+            {currentUser ? (
+              <Button color="inherit" onClick={handleLogout}>
+                Logout
+              </Button>
+            ) : (
+              <Button color="inherit" onClick={handleLoginOpen}>
+                Login
+              </Button>
+            )}
           </Box>
           {/* Mobile Menu Icon */}
           <IconButton
@@ -110,7 +152,9 @@ export default function Navbar() {
       >
         {drawer}
       </Drawer>
-      {/* Spacer to push content below fixed AppBar */}
+      {/* Login Modal */}
+      <LoginModal open={loginOpen} onClose={handleLoginClose} />
+      {/* Spacer */}
       <Box sx={{ height: "64px" }} />
     </>
   );
