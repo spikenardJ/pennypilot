@@ -34,10 +34,10 @@ class GoalSchema(ma.Schema):
 
 class TaxInfoSchema(ma.Schema):
     income1 = fields.Float(required=True)
-    income2 = fields.Float(required=False)
-    income3 = fields.Float(required=False)
-    income4 = fields.Float(required=False)
-    income5 = fields.Float(required=False)
+    income2 = fields.Float(required=True)
+    income3 = fields.Float(required=True)
+    income4 = fields.Float(required=True)
+    income5 = fields.Float(required=True)
     tax_rate = fields.Integer(required=True)
     total_income = fields.Float(required=True)
     tax_to_save = fields.Float(required=True)
