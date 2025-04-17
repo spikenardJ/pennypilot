@@ -27,6 +27,20 @@ class Goal(db.Model):
     current_amount = db.Column(db.Float, nullable=False)
     deadline = db.Column(db.Date, nullable=False)
 
+class TaxInfo(db.Model):
+    __tablename__ = 'TaxInfo'
+    id = db.Column(db.Integer, primary_key=True)
+    income1 = db.Column(db.Float, nullable=False)
+    # User can have up to five incomes
+    income2 = db.Column(db.Float, nullable=True)
+    income3 = db.Column(db.Float, nullable=True)
+    income4 = db.Column(db.Float, nullable=True)
+    income5 = db.Column(db.Float, nullable=True)
+    tax_rate = db.Column(db.Integer, nullable=False)
+    total_income = db.Column(db.Float, nullable=False)
+    tax_to_save = db.Column(db.Float, nullable=False)
+    total_saved = db.Column(db.Float, nullable=False)
+
 # Creating tables
 
 with app.app_context():

@@ -32,9 +32,24 @@ class GoalSchema(ma.Schema):
     class Meta:
         fields = ('id', 'target_amount', 'current_amount', 'deadline')
 
+class TaxInfoSchema(ma.Schema):
+    income1 = fields.Float(required=True)
+    income2 = fields.Float(required=False)
+    income3 = fields.Float(required=False)
+    income4 = fields.Float(required=False)
+    income5 = fields.Float(required=False)
+    tax_rate = fields.Integer(required=True)
+    total_income = fields.Float(required=True)
+    tax_to_save = fields.Float(required=True)
+    total_saved = fields.Float(required=True)
+
+    class Meta:
+        fields = ('id', 'income1', 'income2', 'income3', 'income4', 'income5', 'tax_rate', 'total_income', 'tax_to_save', 'total_saved')
+
 # Initializing schemas
 
 user_schema = UserSchema()
 linked_account_schema = LinkedAccountSchema()
 transaction_schema = TransactionSchema()
 goal_schema = GoalSchema()
+tax_info_schema = TaxInfoSchema()
