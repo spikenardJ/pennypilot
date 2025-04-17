@@ -1,1 +1,1 @@
-SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://root:passwordhere@localhost/pennypilot_db'
+SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://root:Jajoconi1@localhost/pennypilot_db'
