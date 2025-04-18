@@ -28,7 +28,7 @@ class Goal(db.Model):
     deadline = db.Column(db.Date, nullable=False)
 
 class TaxInfo(db.Model):
-    __tablename__ = 'TaxInfo'
+    __tablename__ = 'Tax_Info'
     id = db.Column(db.Integer, primary_key=True)
     income1 = db.Column(db.Float, nullable=False)
     # User can have up to five incomes
