@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { motion, useAnimation } from "framer-motion";
 import {
   Container,
@@ -7,7 +7,6 @@ import {
   Box,
   Card,
   CardContent,
-  useTheme,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/auth";
@@ -17,7 +16,6 @@ import PilotAvatar from "./PilotAvatar";
 const LandingPage = () => {
   const { currentUser } = useAuth();
   const navigate = useNavigate();
-  const theme = useTheme();
   const planeControls = useAnimation();
   const [loginOpen, setLoginOpen] = useState(false);
 
