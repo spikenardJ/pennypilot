@@ -1,24 +1,36 @@
-// import { AuthProvider } from "./context/auth";
+import { AuthProvider, useAuth } from "./context/auth";
 import React from "react";
 import Navbar from "./components/Navbar";
-import HomeDashboard from "./components/HomeDashboard";
+import Dashboard from "./components/Dashboard";
 import BudgetPlanner from "./components/BudgetPlanner";
 import TaxPrep from "./components/TaxPrep";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Goals from "./components/Goals";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import LandingPage from "./components/LandingPage";
 
-function App() {
+function AppRoutes() {
+  const { currentUser } = useAuth();
+
   return (
-    <BrowserRouter>
-      <Navbar />
-      {/* <AuthProvider> */}
-        <Routes>
-          <Route path="/" element={<HomeDashboard />} />
-          <Route path="/budget" element={<BudgetPlanner />} />
-          <Route path="/tax-prep" element={<TaxPrep />} />
-        </Routes>
-      {/* </AuthProvider> */}
-    </BrowserRouter>
+    <Routes>
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/dashboard" element={currentUser ? <Dashboard /> : <Navigate to="/" />} />
+      <Route path="/budget" element={currentUser ? <BudgetPlanner /> : <Navigate to="/" />} />
+      <Route path="/tax-prep" element={currentUser ? <TaxPrep /> : <Navigate to="/" />} />
+      <Route path="/goals" element={currentUser ? <Goals /> : <Navigate to="/" />} />
+    </Routes>
   );
 }
 
-export default App;
+function App() {
+  return (
+    <AuthProvider>
+      <BrowserRouter>
+        <Navbar />
+        <AppRoutes />
+      </BrowserRouter>
+    </AuthProvider>
+  );
+}
+
+export default App; 
